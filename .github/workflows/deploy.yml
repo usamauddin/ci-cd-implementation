@@ -14,6 +14,17 @@ jobs:
         node-version: [20.x]
 
     steps:
+
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Show current folder and contents
+        run: |
+          echo "Current Directory:"
+          pwd
+          echo "Files in this directory:"
+          ls -alh
+
       - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
