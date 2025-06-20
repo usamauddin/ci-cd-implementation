@@ -14,39 +14,37 @@ jobs:
         node-version: [20.x]
 
     steps:
-
-      - name: Check out the repository into your actual app folder
-        uses: actions/checkout@v2
+      - name: Checkout repository to fixed directory
+        uses: actions/checkout@v3
         with:
           path: /home/administrator/nest-cicd-implementation/ci-cd-implementation
-
-      - name: Show current folder and contents
-        run: |
-          cd /home/administrator/nest-cicd-implementation/ci-cd-implementation
-          echo "Current Directory:"
-          pwd
-          echo "Files:"
-          ls -alh
 
       - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Clean old dist
+        run: rm -rf dist
+        working-directory: /home/administrator/nest-cicd-implementation/ci-cd-implementation
+
       - name: Install dependencies
-        run: cd /home/administrator/nest-cicd-implementation/ci-cd-implementation && npm install
+        run: npm install
+        working-directory: /home/administrator/nest-cicd-implementation/ci-cd-implementation
 
       - name: Build the project
-        run: cd /home/administrator/nest-cicd-implementation/ci-cd-implementation && npm run build
+        run: npm run build
+        working-directory: /home/administrator/nest-cicd-implementation/ci-cd-implementation
 
       - name: Install PM2 globally
         run: npm install -g pm2
 
-      - name: Stop current PM2 process by name
-        run: pm2 stop nestjs-app || true
+      - name: Delete existing PM2 process
+        run: pm2 delete nestjs-app || true
 
-      - name: Start new PM2 process with name
-        run: cd /home/administrator/nest-cicd-implementation/ci-cd-implementation && pm2 start dist/main.js --name nestjs-app
+      - name: Start PM2 with new build
+        run: pm2 start dist/main.js --name nestjs-app
+        working-directory: /home/administrator/nest-cicd-implementation/ci-cd-implementation
 
-      - name: Save PM2 process list
+      - name: Save PM2 state
         run: pm2 save
