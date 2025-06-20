@@ -18,11 +18,11 @@ jobs:
       - name: Check out the repository into your actual app folder
         uses: actions/checkout@v2
         with:
-          path: cd nest-cicd-implementation/ci-cd-implementation
+          path: /home/administrator/nest-cicd-implementation/ci-cd-implementation
 
       - name: Show current folder and contents
         run: |
-          cd nest-cicd-implementation/ci-cd-implementation
+          cd /home/administrator/nest-cicd-implementation/ci-cd-implementation
           echo "Current Directory:"
           pwd
           echo "Files:"
@@ -34,10 +34,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: cd nest-cicd-implementation/ci-cd-implementation && npm install
+        run: cd /home/administrator/nest-cicd-implementation/ci-cd-implementation && npm install
 
       - name: Build the project
-        run: cd nest-cicd-implementation/ci-cd-implementation && npm run build
+        run: cd /home/administrator/nest-cicd-implementation/ci-cd-implementation && npm run build
 
       - name: Install PM2 globally
         run: npm install -g pm2
@@ -46,7 +46,7 @@ jobs:
         run: pm2 stop nestjs-app || true
 
       - name: Start new PM2 process with name
-        run: cd nest-cicd-implementation/ci-cd-implementation && pm2 start dist/main.js --name nestjs-app
+        run: cd /home/administrator/nest-cicd-implementation/ci-cd-implementation && pm2 start dist/main.js --name nestjs-app
 
       - name: Save PM2 process list
         run: pm2 save
