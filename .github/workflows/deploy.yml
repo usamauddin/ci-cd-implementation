@@ -18,11 +18,11 @@ jobs:
       - name: Check out the repository into your actual app folder
         uses: actions/checkout@v2
         with:
-          path: cd /home/administrator/nest-cicd-implementation/ci-cd-implementation
+          path: cd nest-cicd-implementation/ci-cd-implementation
 
       - name: Show current folder and contents
         run: |
-          cd /home/administrator/nest-cicd-implementation/ci-cd-implementation
+          cd nest-cicd-implementation/ci-cd-implementation
           echo "Current Directory:"
           pwd
           echo "Files:"
